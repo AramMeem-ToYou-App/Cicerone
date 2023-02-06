@@ -24,8 +24,6 @@ ext {
 // Note: Call 'bintrayUpload' task (it will execute 'install' task first)
 // I try to include as little properties as possible in these files
 project.archivesBaseName ='cicerone' // to fix that project name different from artifact name
-apply from: 'androidmaven.gradle'
-apply from: 'bintray.gradle'
 
 // Tasks for sources and javadocs jars
 task sourcesJar(type: Jar) {
