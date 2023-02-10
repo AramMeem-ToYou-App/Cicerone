@@ -6,9 +6,10 @@
 package android.os;
 
 public class Handler {
-    public Handler(Looper looper) {}
+    public Handler(Looper looper) {
+    }
 
-    public boolean post(Runnable runnable){
+    public boolean post(Runnable runnable) {
         return false;
     }
 }
