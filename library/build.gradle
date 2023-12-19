@@ -1,9 +1,10 @@
-apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
 
-// This is important even if Android Studio claims it isn't
-// used. Android can't interpret Java 8 byte code.
-sourceCompatibility = JavaVersion.VERSION_1_7
-targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     compileOnly project(':stub-android')
@@ -12,8 +13,8 @@ dependencies {
 //ext {
 //    // This params is for the library uploading to the Bintray
 //    bintrayRepo = 'terramaven'
-//    bintrayName = 'cicerone'
-//    publishedGroupId = 'ru.terrakok.cicerone'
+//    bintrayName = ''
+//    publishedGroupId = ''
 //    artifact = 'cicerone'
 //    libraryVersion = '3.0.0'
 //    gitUrl = 'https://github.com/terrakok/Cicerone'
@@ -39,3 +40,28 @@ dependencies {
 //    archives javadocJar
 //    archives sourcesJar
 //}
+
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.java
+
+                groupId = "ru.terrakok.cicerone"
+                artifactId = "cicerone"
+                version = "3.0.1"
+            }
+        }
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/AramMeem-ToYou-App/Cicerone")
+
+                credentials {
+                    username = ARAMMEEM_GITHUB_USERNAME
+                    password = ARAMMEEM_GITHUB_PACKAGES_TOKEN
+                }
+            }
+        }
+    }
+}
