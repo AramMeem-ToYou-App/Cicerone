@@ -1,43 +1,36 @@
-apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
 
-// This is important even if Android Studio claims it isn't
-// used. Android can't interpret Java 8 byte code.
-sourceCompatibility = JavaVersion.VERSION_1_7
-targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     compileOnly project(':stub-android')
 }
 
-ext {
-    // This params is for the library uploading to the Bintray
-    bintrayRepo = 'terramaven'
-    bintrayName = 'cicerone'
-    publishedGroupId = 'ru.terrakok.cicerone'
-    artifact = 'cicerone'
-    libraryVersion = '3.0.0'
-    gitUrl = 'https://github.com/terrakok/Cicerone'
-    allLicenses = ['MIT']
-}
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.java
 
-// Configuration of the library uploading to the Bintray
-// Note: Call 'bintrayUpload' task (it will execute 'install' task first)
-// I try to include as little properties as possible in these files
-project.archivesBaseName ='cicerone' // to fix that project name different from artifact name
-apply from: 'androidmaven.gradle'
-apply from: 'bintray.gradle'
+                groupId = "ru.terrakok.cicerone"
+                artifactId = "cicerone"
+                version = "3.0.1-am"
+            }
+        }
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/AramMeem-ToYou-App/Cicerone")
 
-// Tasks for sources and javadocs jars
-task sourcesJar(type: Jar) {
-    from sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-artifacts {
-    archives javadocJar
-    archives sourcesJar
+                credentials {
+                    username = ARAMMEEM_GITHUB_USERNAME
+                    password = ARAMMEEM_GITHUB_PACKAGES_TOKEN
+                }
+            }
+        }
+    }
 }
