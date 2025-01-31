@@ -36,7 +36,7 @@ ext {
 
 dependencies {
     // Support libraries
-    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+    implementation "com.android.support:appcompat:$supportLibraryVersion"
     implementation "com.android.support:design:$supportLibraryVersion"
 
     //MVP Moxy
